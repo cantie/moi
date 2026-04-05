@@ -60,6 +60,8 @@ Xem `public/config.example.json` — giữ đồng bộ với code validate tron
 
 - Import repo, Framework Preset: **Vite**, build `npm run build`, output `dist`.
 - Branch preview thường chỉ có `config.example.json` trừ khi bạn cấu hình thêm (biến môi trường / bước build — ngoài phạm vi MVP).
+- Đường dẫn file config dùng `import.meta.env.BASE_URL` — nếu đặt `base` khác `/` trong `vite.config.js`, JSON vẫn được tải đúng prefix.
+- Tránh rewrite SPA áp lên `*.json` (khiến server trả `index.html` thay vì JSON). Code đã bỏ qua phản hồi không phải JSON và thử file còn lại.
 
 ## Lỗi thường gặp
 
