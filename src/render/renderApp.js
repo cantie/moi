@@ -10,6 +10,8 @@ function esc(s) {
   return d.innerHTML;
 }
 
+const ACCENT_CLASS = ['ig-accent-a', 'ig-accent-b', 'ig-accent-c', 'ig-accent-d'];
+
 /**
  * @param {HTMLElement} root
  * @param {{ meta: { venueName: string, subtitle?: string }, steps: Record<string, unknown>[] }} data
@@ -18,48 +20,85 @@ function esc(s) {
 export function renderApp(root, data, opts) {
   clear(root);
 
+  const page = document.createElement('div');
+  page.className = 'ig-page';
+
   if (opts.showFallbackBanner) {
     const ban = document.createElement('div');
-    ban.className = 'config-banner';
+    ban.className = 'ig-banner';
     ban.setAttribute('role', 'status');
-    ban.textContent =
-      'Đang dùng config.example.json — copy public/config.example.json thành public/config.local.json để chỉnh dữ liệu thật (file local không commit).';
-    root.appendChild(ban);
+    ban.innerHTML =
+      '<span class="ig-banner__mark" aria-hidden="true">!</span><span class="ig-banner__text">Đang dùng <strong>config.example.json</strong> — copy <code>public/config.example.json</code> → <code>public/config.local.json</code> để chỉnh dữ liệu thật (file local không commit).</span>';
+    page.appendChild(ban);
   }
 
   const header = document.createElement('header');
-  header.className = 'site-header';
+  header.className = 'ig-hero';
+  const brand = document.createElement('div');
+  brand.className = 'ig-hero__brand';
   const h1 = document.createElement('h1');
+  h1.className = 'ig-hero__title';
   h1.textContent = data.meta.venueName;
-  header.appendChild(h1);
+  brand.appendChild(h1);
   if (data.meta.subtitle) {
     const p = document.createElement('p');
-    p.className = 'subtitle';
+    p.className = 'ig-hero__subtitle';
     p.textContent = data.meta.subtitle;
-    header.appendChild(p);
+    brand.appendChild(p);
   }
-  root.appendChild(header);
+  header.appendChild(brand);
+
+  const stats = document.createElement('div');
+  stats.className = 'ig-hero__stats';
+  const n = data.steps.length;
+  stats.innerHTML = `
+    <div class="ig-stat">
+      <span class="ig-stat__value">${n}</span>
+      <span class="ig-stat__label">bước trong luồng</span>
+    </div>
+    <div class="ig-stat ig-stat--dim">
+      <span class="ig-stat__value">${String(n).padStart(2, '0')}</span>
+      <span class="ig-stat__label">mã quy trình</span>
+    </div>`;
+  header.appendChild(stats);
+  page.appendChild(header);
 
   const main = document.createElement('main');
-  main.className = 'timeline';
+  main.className = 'ig-flow';
 
   data.steps.forEach((step, index) => {
+    if (index > 0) {
+      const arrow = document.createElement('div');
+      arrow.className = 'ig-flow-arrow';
+      arrow.setAttribute('aria-hidden', 'true');
+      arrow.innerHTML = '<span class="ig-flow-arrow__shaft"></span><span class="ig-flow-arrow__head"></span>';
+      main.appendChild(arrow);
+    }
+
     const article = document.createElement('article');
-    article.className = 'step';
+    article.className = 'ig-step';
     article.id = `step-${step.id}`;
 
-    const marker = document.createElement('div');
-    marker.className = 'step-marker';
-    marker.setAttribute('aria-hidden', 'true');
-    marker.textContent = String(index + 1);
-    article.appendChild(marker);
+    const accent = ACCENT_CLASS[index % ACCENT_CLASS.length];
+    const card = document.createElement('div');
+    card.className = `ig-card ${accent}`;
 
-    const bodyWrap = document.createElement('div');
-    bodyWrap.className = 'step-body';
+    const badge = document.createElement('div');
+    badge.className = 'ig-card__badge';
+    badge.setAttribute('aria-hidden', 'true');
+    const num = document.createElement('span');
+    num.className = 'ig-card__num';
+    num.textContent = String(index + 1);
+    badge.appendChild(num);
+    card.appendChild(badge);
+
+    const inner = document.createElement('div');
+    inner.className = 'ig-card__inner';
 
     const titleRow = document.createElement('div');
-    titleRow.className = 'step-title-row';
+    titleRow.className = 'ig-card__head';
     const h2 = document.createElement('h2');
+    h2.className = 'ig-card__title';
     h2.textContent = /** @type {string} */ (step.title);
     titleRow.appendChild(h2);
 
@@ -69,41 +108,42 @@ export function renderApp(root, data, opts) {
       panelId = `panel-${step.id}`;
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'detail-trigger';
+      btn.className = 'ig-pill';
       btn.setAttribute('aria-expanded', 'false');
       btn.setAttribute('aria-controls', panelId);
-      btn.textContent = 'Chi tiết';
+      btn.innerHTML = '<span class="ig-pill__icon" aria-hidden="true">+</span> Số liệu &amp; ghi chú';
       titleRow.appendChild(btn);
     }
-    bodyWrap.appendChild(titleRow);
+    inner.appendChild(titleRow);
 
     const body = document.createElement('div');
-    body.className = 'step-text';
+    body.className = 'ig-card__body';
     body.innerHTML = esc(String(step.body)).replace(/\n/g, '<br />');
-    bodyWrap.appendChild(body);
+    inner.appendChild(body);
 
     if (Array.isArray(step.branches) && step.branches.length) {
-      const ul = document.createElement('ul');
-      ul.className = 'branches';
+      const branches = document.createElement('div');
+      branches.className = 'ig-branches';
+      const brTitle = document.createElement('div');
+      brTitle.className = 'ig-branches__label';
+      brTitle.textContent = 'Nhánh';
+      branches.appendChild(brTitle);
+      const row = document.createElement('div');
+      row.className = 'ig-branches__row';
       for (const br of step.branches) {
-        const li = document.createElement('li');
-        const strong = document.createElement('strong');
-        strong.className = 'branch-label';
-        strong.textContent = String(br.label) + ' — ';
-        li.appendChild(strong);
-        const span = document.createElement('span');
-        span.className = 'branch-body';
-        span.innerHTML = esc(String(br.body)).replace(/\n/g, '<br />');
-        li.appendChild(span);
-        ul.appendChild(li);
+        const chip = document.createElement('div');
+        chip.className = 'ig-chip';
+        chip.innerHTML = `<span class="ig-chip__tag">${esc(String(br.label))}</span><p class="ig-chip__text">${esc(String(br.body)).replace(/\n/g, '<br />')}</p>`;
+        row.appendChild(chip);
       }
-      bodyWrap.appendChild(ul);
+      branches.appendChild(row);
+      inner.appendChild(branches);
     }
 
     if (showDetail) {
       const panel = document.createElement('div');
       panel.id = panelId;
-      panel.className = 'detail-panel';
+      panel.className = 'ig-detail';
       panel.hidden = true;
       panel.setAttribute('role', 'region');
       const detail = /** @type {{ title?: string, sections: { kind: string, label: string, body: string }[] }} */ (
@@ -111,29 +151,27 @@ export function renderApp(root, data, opts) {
       );
       if (detail.title) {
         const pt = document.createElement('h3');
-        pt.className = 'detail-panel-title';
+        pt.className = 'ig-detail__title';
         pt.textContent = detail.title;
         panel.appendChild(pt);
       }
+      const grid = document.createElement('div');
+      grid.className = 'ig-detail__grid';
       for (const sec of detail.sections) {
         const block = document.createElement('section');
-        block.className = `detail-section detail-section--${sec.kind}`;
-        const lab = document.createElement('h4');
-        lab.textContent = sec.label;
-        block.appendChild(lab);
-        const txt = document.createElement('div');
-        txt.className = 'detail-section-body';
-        txt.innerHTML = esc(sec.body).replace(/\n/g, '<br />');
-        block.appendChild(txt);
-        panel.appendChild(block);
+        block.className = `ig-tile ig-tile--${sec.kind}`;
+        block.innerHTML = `<h4 class="ig-tile__label">${esc(sec.label)}</h4><div class="ig-tile__body">${esc(sec.body).replace(/\n/g, '<br />')}</div>`;
+        grid.appendChild(block);
       }
-      bodyWrap.appendChild(panel);
+      panel.appendChild(grid);
+      inner.appendChild(panel);
 
-      const btn = /** @type {HTMLButtonElement} */ (titleRow.querySelector('.detail-trigger'));
+      const btn = /** @type {HTMLButtonElement} */ (titleRow.querySelector('.ig-pill'));
       const toggle = () => {
         const open = panel.hidden;
         panel.hidden = !open;
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.classList.toggle('ig-pill--open', open);
       };
       btn.addEventListener('click', () => toggle());
 
@@ -142,11 +180,13 @@ export function renderApp(root, data, opts) {
         const openHover = () => {
           panel.hidden = false;
           btn.setAttribute('aria-expanded', 'true');
+          btn.classList.add('ig-pill--open');
         };
         const closeHover = () => {
           if (document.activeElement !== btn && !panel.matches(':hover')) {
             panel.hidden = true;
             btn.setAttribute('aria-expanded', 'false');
+            btn.classList.remove('ig-pill--open');
           }
         };
         btn.addEventListener('mouseenter', openHover);
@@ -158,11 +198,13 @@ export function renderApp(root, data, opts) {
       }
     }
 
-    article.appendChild(bodyWrap);
+    card.appendChild(inner);
+    article.appendChild(card);
     main.appendChild(article);
   });
 
-  root.appendChild(main);
+  page.appendChild(main);
+  root.appendChild(page);
 }
 
 /**
@@ -172,14 +214,15 @@ export function renderApp(root, data, opts) {
  */
 export function renderError(root, message, errors = []) {
   clear(root);
+  const page = document.createElement('div');
+  page.className = 'ig-page';
   const box = document.createElement('div');
-  box.className = 'error-box';
+  box.className = 'ig-alert';
   box.setAttribute('role', 'alert');
-  const p = document.createElement('p');
-  p.textContent = message;
-  box.appendChild(p);
+  box.innerHTML = `<div class="ig-alert__title">Lỗi</div><p class="ig-alert__msg">${esc(message)}</p>`;
   if (errors.length) {
     const ul = document.createElement('ul');
+    ul.className = 'ig-alert__list';
     for (const e of errors) {
       const li = document.createElement('li');
       li.textContent = e;
@@ -187,5 +230,6 @@ export function renderError(root, message, errors = []) {
     }
     box.appendChild(ul);
   }
-  root.appendChild(box);
+  page.appendChild(box);
+  root.appendChild(page);
 }
