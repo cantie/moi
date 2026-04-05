@@ -11,7 +11,7 @@ const CONFIG = {
   brand: {
     name: "Mới",              // Tên thương hiệu
     tagline: "Cafe · Pub · Trải nghiệm",  // Slogan phụ
-    description: "Hướng dẫn vận hành & kinh doanh hiệu quả",
+    description: "17/575 Kim Mã, Hà Nội",
     accentColor: "#C8854A",         // Màu nhấn chính (hex)
     darkColor: "#1A1208",           // Màu nền tối
   },
