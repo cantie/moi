@@ -147,10 +147,10 @@ const CONFIG = {
   // CHỈ SỐ KINH DOANH
   // ----------------------------------------------------------
   metrics: [
-    { label: "Doanh thu / ngày",    value: "5–8M",   unit: "đồng" },
+    { label: "Doanh thu / ngày",    value: "2–3M",   unit: "đồng" },
     { label: "Tỉ lệ lãi gộp",       value: "60–70",  unit: "%" },
-    { label: "Khách / ngày",         value: "80–150", unit: "lượt" },
-    { label: "Hoàn vốn dự kiến",    value: "18–24",  unit: "tháng" },
+    { label: "Khách / ngày",         value: "40-50", unit: "lượt" },
+    { label: "Hoàn vốn dự kiến",    value: "???",  unit: "tháng" },
   ],
 
   // ----------------------------------------------------------
