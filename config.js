@@ -30,14 +30,14 @@ const CONFIG = {
     {
       title: "Pub ban đêm",
       hours: "17:00 – 23:00",
-      items: ["Bia, cocktail, đồ nhậu", "Nhạc sống / DJ", "Happy hour 17–19h"],
+      items: ["Bia, rượu, cocktail, đồ nhậu", "Happy hour 17–19h"],
       color: "#7B5EA7",
       icon: "🍺",
     },
     {
       title: "Sự kiện",
-      hours: "Theo đặt lịch",
-      items: ["Sinh nhật, họp nhóm", "Ra mắt sản phẩm", "Đặt cọc trước"],
+      hours: "Theo đặt lịch, ban ngày",
+      items: ["Họp nhóm", "Ra mắt sản phẩm", "Offline"],
       color: "#3A8C6E",
       icon: "🎉",
     },
@@ -79,7 +79,7 @@ const CONFIG = {
       sections: [
         {
           title: "Món nhắm / finger food",
-          items: ["Khoai tây chiên", "Cánh gà / sụn", "Xúc xích nướng", "Khô gà / heo / bò"],
+          items: ["Khoai tây chiên", "Cánh gà / sụn", "Xúc xích nướng", "Khô gà / heo / bò", "Lạc rang", "Củ đậu / Dưa chuột"],
         },
         {
           title: "Món nóng",
@@ -109,6 +109,38 @@ const CONFIG = {
         },
       ],
     },
+  },
+
+  // ----------------------------------------------------------
+  // DANH MỤC CHƯƠNG TRÌNH NGHỆ THUẬT
+  // Cùng cấu trúc với một thẻ trong menus: title, color, sections[].
+  // ----------------------------------------------------------
+  artPrograms: {
+    title: "Danh mục chương trình nghệ thuật",
+    color: "#3A8C6E",
+    sections: [
+      {
+        title: "Âm nhạc trực tiếp",
+        items: [
+          "Acoustic",
+          "Ngẫu hứng không giới hạn",
+        ],
+      },
+      {
+        title: "Hình ảnh & trải nghiệm",
+        items: [
+          "Chiếu phim ngắn / MV (màn trong quán)",
+          "Triển lãm ảnh / tranh nhỏ (xoay theo tháng)",
+          "Workshop mini: pha chế, vẽ, vinyl listening",
+        ],
+      },
+      {
+        title: "Sân khấu nhỏ & tương tác",
+        items: [
+          "Stand-up comedy",
+        ],
+      },
+    ],
   },
 
   // ----------------------------------------------------------

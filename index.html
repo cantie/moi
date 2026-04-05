@@ -226,6 +226,26 @@
     color: var(--menu-accent, var(--accent));
     font-weight: 500;
   }
+  .art-programs-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  @media (min-width: 720px) {
+    .art-programs-wrap .menu-card .menu-section {
+      break-inside: avoid;
+    }
+    .art-programs-wrap .menu-card {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 28px;
+      row-gap: 0;
+      align-items: start;
+    }
+    .art-programs-wrap .menu-card .menu-card-head {
+      grid-column: 1 / -1;
+    }
+  }
 
   /* ── METRICS ── */
   .metrics-grid {
@@ -494,6 +514,9 @@
   <div class="section-label" id="menus-section-label">Danh mục thực đơn</div>
   <div class="menus-grid fade-in" id="menus-grid"></div>
 
+  <div class="section-label" id="art-programs-section-label">Danh mục chương trình nghệ thuật</div>
+  <div class="art-programs-wrap fade-in" id="art-programs-wrap"></div>
+
   <!-- CHỈ SỐ -->
   <div class="section-label">Chỉ số quan trọng</div>
   <div class="metrics-grid fade-in" id="metrics-grid"></div>
@@ -584,6 +607,16 @@
   } else {
     menusLabel.style.display = 'none';
     menusGrid.style.display = 'none';
+  }
+
+  const artWrap = document.getElementById('art-programs-wrap');
+  const artLabel = document.getElementById('art-programs-section-label');
+  const AP = CONFIG.artPrograms;
+  if (AP && AP.sections && AP.sections.length) {
+    artWrap.innerHTML = renderMenuCard(AP);
+  } else {
+    artLabel.style.display = 'none';
+    artWrap.style.display = 'none';
   }
 
   // Metrics
