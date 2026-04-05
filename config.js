@@ -23,7 +23,7 @@ const CONFIG = {
     {
       title: "Cafe ban ngày",
       hours: "07:00 – 17:00",
-      items: ["Cà phê, trà, bánh ngọt", "Không gian yên tĩnh", "Wifi tốc độ cao"],
+      items: ["Cà phê, trà, nước ép", "Không gian yên tĩnh", "Wifi tốc độ cao"],
       color: "#C8854A",             // Màu thẻ
       icon: "☕",
     },
@@ -122,8 +122,8 @@ const CONFIG = {
       {
         title: "Âm nhạc trực tiếp",
         items: [
-          "Acoustic",
-          "Ngẫu hứng không giới hạn",
+          "Acoustic (Sáng)",
+          "Ngẫu hứng không giới hạn (Tối)",
         ],
       },
       {
