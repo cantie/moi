@@ -144,7 +144,7 @@ const CONFIG = {
   // ----------------------------------------------------------
   metrics: [
     { label: "Doanh thu / ngày",    value: "2–3M",   unit: "đồng" },
-    { label: "Tỉ lệ lãi gộp",       value: "60–70",  unit: "%" },
+    { label: "Tỉ lệ lãi gộp",       value: "70-80",  unit: "%" },
     { label: "Khách / ngày",         value: "40-50", unit: "lượt" },
     { label: "Hoàn vốn dự kiến",    value: "???",  unit: "tháng" },
   ],
