@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateConfig } from './validate.js';
+import { validateConfig, stepHasDetailPanel } from './validate.js';
 
 describe('validateConfig', () => {
   it('rejects non-object root', () => {
@@ -47,5 +47,33 @@ describe('validateConfig', () => {
       steps: [{ id: 'open', title: 'Mở cửa', body: 'Chuẩn bị quầy.' }],
     });
     expect(r.ok).toBe(true);
+  });
+});
+
+describe('stepHasDetailPanel', () => {
+  it('false when no detail', () => {
+    expect(stepHasDetailPanel({ id: 'a', title: 't', body: 'b' })).toBe(false);
+  });
+  it('false when sections empty', () => {
+    expect(
+      stepHasDetailPanel({
+        id: 'a',
+        title: 't',
+        body: 'b',
+        detail: { sections: [] },
+      }),
+    ).toBe(false);
+  });
+  it('true when sections has item', () => {
+    expect(
+      stepHasDetailPanel({
+        id: 'a',
+        title: 't',
+        body: 'b',
+        detail: {
+          sections: [{ kind: 'note', label: 'Lưu ý', body: 'X' }],
+        },
+      }),
+    ).toBe(true);
   });
 });
