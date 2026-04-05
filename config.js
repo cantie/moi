@@ -79,15 +79,11 @@ const CONFIG = {
       sections: [
         {
           title: "Món nhắm / finger food",
-          items: ["Khoai tây chiên", "Cánh gà / sụn", "Xúc xích nướng", "Khô gà / heo / bò", "Lạc rang", "Củ đậu / Dưa chuột"],
+          items: ["Cold-cut / Salad", "Khoai tây chiên", "Xúc xích nướng", "Khô gà / heo / bò", "Lạc rang", "Củ đậu / Dưa chuột"],
         },
         {
           title: "Món nóng",
-          items: ["Mì Spaghetti", "Bánh mì nướng", "Bò / heo nướng xiên", "Chả giò / nem"],
-        },
-        {
-          title: "Nhẹ & chua cay",
-          items: ["Gỏi / nộm", "Salad"],
+          items: ["Mì Spaghetti", "Bánh mì nướng", "Bò / heo nướng xiên", "Cánh gà / sụn"],
         },
       ],
     },
