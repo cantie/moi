@@ -83,7 +83,7 @@ const CONFIG = {
         },
         {
           title: "Món nóng",
-          items: ["Mì Spaghetti", "Bánh mì nướng", "Bò / heo nướng xiên", "Cánh gà / sụn"],
+          items: ["Bánh mì nướng", "Bò / heo nướng xiên", "Cánh gà / sụn"],
         },
       ],
     },
