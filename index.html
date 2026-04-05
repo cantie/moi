@@ -1,13 +1,748 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quán Mới — Sổ vận hành</title>
-    <link rel="stylesheet" href="/src/style.css" />
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cafe &amp; Pub Infographic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #C8854A;
+    --dark:   #1A1208;
+    --cream:  #F5F0E8;
+    --muted:  #8C8070;
+    --card:   #FFFFFF;
+    --border: rgba(0,0,0,0.08);
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--dark);
+    color: var(--cream);
+    padding: 64px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 60px solid rgba(200,133,74,0.12);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 160px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 40px solid rgba(200,133,74,0.07);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 860px; margin: 0 auto; position: relative; }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero-sub {
+    font-size: 15px;
+    color: rgba(245,240,232,0.6);
+    max-width: 480px;
+  }
+  .hero-line {
+    width: 48px; height: 2px;
+    background: var(--accent);
+    margin: 28px 0;
+  }
+
+  /* ── WRAPPER ── */
+  .page { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 56px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── BUSINESS MODELS ── */
+  .models-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .model-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .model-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+  }
+  .model-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--card-accent, var(--accent));
+  }
+  .model-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .model-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .model-hours {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 14px;
+    letter-spacing: 0.04em;
+  }
+  .model-items { list-style: none; }
+  .model-items li {
+    font-size: 13px;
+    color: #555;
+    padding: 4px 0;
+    padding-left: 14px;
+    position: relative;
+  }
+  .model-items li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--card-accent, var(--accent));
+    font-weight: 500;
+  }
+
+  /* ── MENU CATALOG (đồ uống / đồ ăn / rượu) ── */
+  .menus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .menu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 22px 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .menu-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+  }
+  .menu-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--menu-accent, var(--accent));
+  }
+  .menu-card-head {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--dark);
+    line-height: 1.25;
+  }
+  .menu-section { margin-bottom: 18px; }
+  .menu-section:last-child { margin-bottom: 0; }
+  .menu-section-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .menu-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .menu-items li {
+    font-size: 13px;
+    color: #555;
+    padding: 4px 0 4px 14px;
+    position: relative;
+    line-height: 1.45;
+  }
+  .menu-items li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--menu-accent, var(--accent));
+    font-weight: 500;
+  }
+
+  /* ── METRICS ── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .metric-card {
+    background: var(--dark);
+    color: var(--cream);
+    border-radius: 14px;
+    padding: 24px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .metric-card::after {
+    content: '';
+    position: absolute;
+    bottom: -16px; right: -16px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(200,133,74,0.1);
+  }
+  .metric-label {
+    font-size: 11px;
+    color: rgba(245,240,232,0.5);
+    font-weight: 400;
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+  }
+  .metric-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .metric-unit {
+    font-size: 12px;
+    color: rgba(245,240,232,0.4);
+    margin-top: 4px;
+  }
+
+  /* ── COST BARS ── */
+  .cost-list { display: flex; flex-direction: column; gap: 14px; }
+  .cost-row { display: flex; align-items: center; gap: 14px; }
+  .cost-label {
+    width: 160px;
+    font-size: 13px;
+    color: var(--dark);
+    flex-shrink: 0;
+    font-weight: 400;
+  }
+  .cost-bar-wrap {
+    flex: 1;
+    background: rgba(0,0,0,0.06);
+    border-radius: 99px;
+    height: 10px;
+    overflow: hidden;
+  }
+  .cost-bar {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 1s cubic-bezier(0.22,1,0.36,1);
+  }
+  .cost-pct {
+    width: 36px;
+    text-align: right;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  /* ── SUCCESS FACTORS ── */
+  .factors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+  }
+  .factor-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 22px;
+    transition: transform 0.2s;
+  }
+  .factor-card:hover { transform: translateY(-2px); }
+  .factor-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: rgba(0,0,0,0.05);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .factor-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--dark);
+  }
+  .factor-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── LEGAL ── */
+  .legal-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 28px 24px;
+  }
+  .legal-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .legal-pill {
+    background: rgba(200,133,74,0.1);
+    color: #7A4A1E;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 99px;
+    border: 1px solid rgba(200,133,74,0.2);
+  }
+  .legal-note {
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    margin-top: 4px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── ANIMATE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── FINANCE TABS (cơ cấu chi phí) ── */
+  .finance-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 22px 24px;
+  }
+  .finance-tablist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .finance-tab {
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    background: rgba(245,240,232,0.6);
+    color: var(--muted);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .finance-tab:hover {
+    color: var(--dark);
+    border-color: rgba(0,0,0,0.12);
+  }
+  .finance-tab[aria-selected="true"] {
+    background: var(--dark);
+    color: var(--cream);
+    border-color: var(--dark);
+  }
+  .finance-tab-panel { display: none; }
+  .finance-tab-panel.is-active { display: block; }
+  .finance-empty {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .finance-empty code {
+    font-size: 12px;
+    background: rgba(0,0,0,0.05);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .bd-group { margin-bottom: 22px; }
+  .bd-group:last-child { margin-bottom: 0; }
+  .bd-group-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .bd-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: #444;
+  }
+  .bd-row:last-child { border-bottom: none; }
+  .bd-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+    line-height: 1.2;
+  }
+  .bd-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.45;
+  }
+</style>
+</head>
+<body>
+
+<!-- CONFIG FILE PHẢI ĐƯỢC LOAD TRƯỚC -->
+<script src="config.js"></script>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow" id="hero-eyebrow"></div>
+    <h1 id="hero-title"></h1>
+    <div class="hero-line"></div>
+    <p class="hero-sub" id="hero-sub"></p>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- MÔ HÌNH KINH DOANH -->
+  <div class="section-label">Mô hình kinh doanh</div>
+  <div class="models-grid fade-in" id="models-grid"></div>
+
+  <!-- DANH MỤC THỰC ĐƠN -->
+  <div class="section-label" id="menus-section-label">Danh mục thực đơn</div>
+  <div class="menus-grid fade-in" id="menus-grid"></div>
+
+  <!-- CHỈ SỐ -->
+  <div class="section-label">Chỉ số quan trọng</div>
+  <div class="metrics-grid fade-in" id="metrics-grid"></div>
+
+  <!-- CHI PHÍ -->
+  <div class="section-label">Cơ cấu chi phí hàng tháng</div>
+  <div class="finance-card fade-in" id="finance-card">
+    <div class="finance-tablist" id="finance-tablist" role="tablist" aria-label="Cơ cấu chi phí"></div>
+    <div class="finance-tab-panel is-active" id="finance-panel-overview" role="tabpanel" data-tab-panel="overview" aria-labelledby="finance-tab-overview">
+      <div class="cost-list" id="cost-list"></div>
+    </div>
+    <div class="finance-tab-panel" id="finance-panel-detail" role="tabpanel" data-tab-panel="detail" aria-labelledby="finance-tab-detail">
+      <div id="cost-detail"></div>
+    </div>
+  </div>
+
+  <!-- YẾU TỐ THÀNH CÔNG -->
+  <div class="section-label">Yếu tố thành công</div>
+  <div class="factors-grid fade-in" id="factors-grid"></div>
+
+  <!-- PHÁP LÝ -->
+  <div class="section-label">Lưu ý pháp lý</div>
+  <div class="legal-box fade-in" id="legal-box"></div>
+
+  <!-- FOOTER -->
+  <div class="footer" id="footer"></div>
+</div>
+
+<script>
+  // ── RENDER TỪ CONFIG ──────────────────────────────────────
+
+  // Hero
+  document.getElementById('hero-eyebrow').textContent = CONFIG.brand.tagline;
+  document.getElementById('hero-title').innerHTML =
+    CONFIG.brand.name;
+  document.getElementById('hero-sub').textContent = CONFIG.brand.description;
+
+  // Update CSS accent
+  document.documentElement.style.setProperty('--accent', CONFIG.brand.accentColor);
+  document.documentElement.style.setProperty('--dark', CONFIG.brand.darkColor);
+
+  // Business models
+  const modelsEl = document.getElementById('models-grid');
+  CONFIG.businessModels.forEach(m => {
+    const card = document.createElement('div');
+    card.className = 'model-card';
+    card.style.setProperty('--card-accent', m.color);
+    card.innerHTML = `
+      <span class="model-icon">${m.icon}</span>
+      <div class="model-title">${m.title}</div>
+      <div class="model-hours">${m.hours}</div>
+      <ul class="model-items">
+        ${m.items.map(i => `<li>${i}</li>`).join('')}
+      </ul>`;
+    modelsEl.appendChild(card);
+  });
+
+  // Danh mục: đồ uống cafe ngày · đồ ăn pub đêm · rượu
+  const menusGrid = document.getElementById('menus-grid');
+  const menusLabel = document.getElementById('menus-section-label');
+  function renderMenuCard(menu) {
+    if (!menu || !menu.sections || !menu.sections.length) return '';
+    const accent = menu.color || CONFIG.brand.accentColor;
+    const body = menu.sections.map(sec => `
+      <div class="menu-section">
+        <div class="menu-section-title">${sec.title}</div>
+        <ul class="menu-items">
+          ${(sec.items || []).map(i => `<li>${i}</li>`).join('')}
+        </ul>
+      </div>
+    `).join('');
+    return `<div class="menu-card" style="--menu-accent:${accent}">
+      <div class="menu-card-head">${menu.title}</div>
+      ${body}
+    </div>`;
+  }
+  const M = CONFIG.menus;
+  if (M) {
+    const html = [renderMenuCard(M.cafeDayDrinks), renderMenuCard(M.pubNightFood), renderMenuCard(M.liquor)]
+      .filter(Boolean)
+      .join('');
+    if (html) {
+      menusGrid.innerHTML = html;
+    } else {
+      menusLabel.style.display = 'none';
+      menusGrid.style.display = 'none';
+    }
+  } else {
+    menusLabel.style.display = 'none';
+    menusGrid.style.display = 'none';
+  }
+
+  // Metrics
+  const metricsEl = document.getElementById('metrics-grid');
+  CONFIG.metrics.forEach(m => {
+    const card = document.createElement('div');
+    card.className = 'metric-card';
+    card.innerHTML = `
+      <div class="metric-label">${m.label}</div>
+      <div class="metric-value">${m.value}</div>
+      <div class="metric-unit">${m.unit}</div>`;
+    metricsEl.appendChild(card);
+  });
+
+  // Costs: c.percent = triệu đồng; thanh & nhãn % = phần trăm theo tổng triệu
+  const costEl = document.getElementById('cost-list');
+  const costTotalM = CONFIG.costs.reduce((s, c) => s + (Number(c.percent) || 0), 0);
+  const fmtCostPct = (pct) => {
+    const n = Number(pct);
+    if (!Number.isFinite(n) || costTotalM <= 0) return '0';
+    const rounded = Math.round(n * 10) / 10;
+    return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+  };
+  CONFIG.costs.forEach(c => {
+    const million = Number(c.percent) || 0;
+    const sharePct = costTotalM > 0 ? (million / costTotalM) * 100 : 0;
+    const row = document.createElement('div');
+    row.className = 'cost-row';
+    row.innerHTML = `
+      <span class="cost-label">${c.label}</span>
+      <div class="cost-bar-wrap">
+        <div class="cost-bar" style="width:0%;background:${c.color}" data-pct="${sharePct}"></div>
+      </div>
+      <span class="cost-pct">${fmtCostPct(sharePct)}%</span>`;
+    costEl.appendChild(row);
+  });
+
+  // Tab cơ cấu chi phí: tổng quan vs chi tiết
+  const financeTabs = CONFIG.costTabs || [
+    { id: 'overview', label: 'Tổng quan' },
+    { id: 'detail', label: 'Chi tiết cơ cấu tiền' },
+  ];
+  const tablistEl = document.getElementById('finance-tablist');
+  financeTabs.forEach((t, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'finance-tab';
+    btn.id = 'finance-tab-' + t.id;
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    btn.setAttribute('aria-controls', 'finance-panel-' + t.id);
+    btn.dataset.tab = t.id;
+    btn.textContent = t.label;
+    tablistEl.appendChild(btn);
+  });
+
+  function setFinanceTab(id) {
+    tablistEl.querySelectorAll('[role="tab"]').forEach(b => {
+      const on = b.dataset.tab === id;
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    financeTabs.forEach(t => {
+      const panel = document.getElementById('finance-panel-' + t.id);
+      if (!panel) return;
+      const on = t.id === id;
+      panel.classList.toggle('is-active', on);
+      panel.setAttribute('aria-hidden', on ? 'false' : 'true');
+    });
+    if (id === 'overview') {
+      requestAnimationFrame(() => {
+        document.querySelectorAll('#cost-list .cost-bar').forEach(bar => {
+          const p = bar.dataset.pct;
+          if (p !== undefined && p !== '') bar.style.width = p + '%';
+        });
+      });
+    }
+  }
+
+  tablistEl.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-tab]');
+    if (!btn || !tablistEl.contains(btn)) return;
+    setFinanceTab(btn.dataset.tab);
+  });
+
+  document.querySelectorAll('.finance-tab-panel').forEach((panel, idx) => {
+    panel.setAttribute('aria-hidden', idx === 0 ? 'false' : 'true');
+  });
+
+  const detailEl = document.getElementById('cost-detail');
+  const breakdown = CONFIG.costBreakdown;
+  if (!breakdown || !breakdown.length) {
+    detailEl.innerHTML =
+      '<p class="finance-empty">Thêm mảng <code>costBreakdown</code> trong <code>config.js</code> để hiển thị chi tiết dòng tiền.</p>';
+  } else {
+    detailEl.innerHTML = breakdown.map(g => `
+      <div class="bd-group">
+        <div class="bd-group-title">${g.title}</div>
+        ${(g.items || []).map(it => `
+          <div class="bd-row">
+            <div>
+              <div>${it.label}</div>
+              ${it.note ? `<div class="bd-note">${it.note}</div>` : ''}
+            </div>
+            <div class="bd-amount">${it.million}M</div>
+          </div>
+        `).join('')}
+      </div>
+    `).join('');
+  }
+
+  // Success factors
+  const factorsEl = document.getElementById('factors-grid');
+  CONFIG.successFactors.forEach(f => {
+    const card = document.createElement('div');
+    card.className = 'factor-card';
+    card.innerHTML = `
+      <div class="factor-num">${f.number}</div>
+      <div class="factor-title">${f.title}</div>
+      <div class="factor-desc">${f.desc}</div>`;
+    factorsEl.appendChild(card);
+  });
+
+  // Legal
+  const legalEl = document.getElementById('legal-box');
+  legalEl.innerHTML = `
+    <div class="legal-pills">
+      ${CONFIG.legalItems.map(l => `<span class="legal-pill">${l}</span>`).join('')}
+    </div>
+    <div class="legal-note">${CONFIG.legalNote}</div>`;
+
+  // Footer
+  document.getElementById('footer').innerHTML =
+    `${CONFIG.footer.credit} &nbsp;·&nbsp; ${CONFIG.footer.year}`;
+
+  // ── ANIMATE ON SCROLL ──────────────────────────────────────
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = (i * 0.05) + 's';
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ── ANIMATE BARS ───────────────────────────────────────────
+  const barObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.cost-bar').forEach(bar => {
+          bar.style.width = bar.dataset.pct + '%';
+        });
+        barObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  barObserver.observe(document.getElementById('cost-list'));
+</script>
+</body>
 </html>
